@@ -17,7 +17,8 @@ public class Principal extends javax.swing.JFrame {
     
     public Principal() {
         initComponents();
-        
+        String t = generadorlink();
+        //System.out.println(t);
         
     }
 
@@ -35,6 +36,14 @@ public class Principal extends javax.swing.JFrame {
         menuitemcrearcarptea = new javax.swing.JMenuItem();
         menuitemfav = new javax.swing.JMenuItem();
         menuitemeiminar = new javax.swing.JMenuItem();
+        jFrame1 = new javax.swing.JFrame();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jTextField2 = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jlist = new javax.swing.JList<>();
@@ -44,6 +53,11 @@ public class Principal extends javax.swing.JFrame {
         pgarriba = new javax.swing.JProgressBar();
 
         menuitemcreararchivo.setText("Crear Archivo");
+        menuitemcreararchivo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuitemcreararchivoActionPerformed(evt);
+            }
+        });
         popupmenu.add(menuitemcreararchivo);
 
         menuitemcrearcarptea.setText("Crear Carpeta");
@@ -54,6 +68,68 @@ public class Principal extends javax.swing.JFrame {
 
         menuitemeiminar.setText("Eliminar");
         popupmenu.add(menuitemeiminar);
+
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jLabel1.setText("Crear Archivo");
+
+        jLabel2.setText("Nombre");
+
+        jLabel3.setText("Tamaño");
+
+        jButton1.setBackground(new java.awt.Color(204, 204, 204));
+        jButton1.setText("Agregar");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(290, 290, 290)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(265, 265, 265)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(308, 308, 308)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(307, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(60, 60, 60)
+                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextField1)
+                .addGap(34, 34, 34)
+                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextField2)
+                .addGap(60, 60, 60)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(148, 148, 148))
+        );
+
+        javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
+        jFrame1.getContentPane().setLayout(jFrame1Layout);
+        jFrame1Layout.setHorizontalGroup(
+            jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jFrame1Layout.setVerticalGroup(
+            jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -126,9 +202,12 @@ public class Principal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jtreeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtreeMouseClicked
+        jtree.setSelectionRow(jtree.getClosestRowForLocation(evt.getX(), evt.getY()));
+        nodoseleccion = (DefaultMutableTreeNode)jtree.getSelectionPath().getLastPathComponent();
         if(evt.getButton()==3){
-            
+            popupmenu.show(jtree, evt.getX(), evt.getY());
         }
+        
     }//GEN-LAST:event_jtreeMouseClicked
 
     private void jlistMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlistMouseClicked
@@ -141,6 +220,13 @@ public class Principal extends javax.swing.JFrame {
         modelo.reload();
         
     }//GEN-LAST:event_jlistMouseClicked
+
+    private void menuitemcreararchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuitemcreararchivoActionPerformed
+        DefaultTreeModel modelo = (DefaultTreeModel) jtree.getModel();
+        DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
+        
+        DefaultMutableTreeNode nodoarchivo = new DefaultMutableTreeNode();
+    }//GEN-LAST:event_menuitemcreararchivoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -178,9 +264,17 @@ public class Principal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JFrame jFrame1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
     private javax.swing.JList<String> jlist;
     private javax.swing.JTree jtree;
     private javax.swing.JMenuItem menuitemcreararchivo;
@@ -195,12 +289,18 @@ public class Principal extends javax.swing.JFrame {
         String temp="";
         int x;
         for (int i = 0; i < 10; i++) {
-            x = 65+aleatorio.nextInt(90);
-            for (int j = 65; j < 90; j++) {
-                temp += x;
+            x = aleatorio.nextInt(90);
+            System.out.println(x);
+            for (int j = 65; j <= 90; j++) {
+                if(x == j){
+                    temp += j;
+                    break;
+                }
             }
         }
+        
         return temp;   
     }
     private String listseleccionado;
+    private DefaultMutableTreeNode nodoseleccion;
 }
