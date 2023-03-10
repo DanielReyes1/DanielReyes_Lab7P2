@@ -9,6 +9,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.MutableTreeNode;
 
 
     
@@ -36,6 +37,9 @@ public class Principal extends javax.swing.JFrame {
         menuitemcrearcarptea = new javax.swing.JMenuItem();
         menuitemfav = new javax.swing.JMenuItem();
         menuitemeiminar = new javax.swing.JMenuItem();
+        popupmenuraiz = new javax.swing.JPopupMenu();
+        menuitemcreararchivo1 = new javax.swing.JMenuItem();
+        menuitemcrearcarptea1 = new javax.swing.JMenuItem();
         jFrame1 = new javax.swing.JFrame();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -79,8 +83,29 @@ public class Principal extends javax.swing.JFrame {
         menuitemfav.setText("Agregar a Destacados");
         popupmenu.add(menuitemfav);
 
-        menuitemeiminar.setText("Eliminar");
+        menuitemeiminar.setText("Eliminar Carpeta");
+        menuitemeiminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuitemeiminarActionPerformed(evt);
+            }
+        });
         popupmenu.add(menuitemeiminar);
+
+        menuitemcreararchivo1.setText("Crear Archivo");
+        menuitemcreararchivo1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuitemcreararchivo1ActionPerformed(evt);
+            }
+        });
+        popupmenuraiz.add(menuitemcreararchivo1);
+
+        menuitemcrearcarptea1.setText("Crear Carpeta");
+        menuitemcrearcarptea1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuitemcrearcarptea1ActionPerformed(evt);
+            }
+        });
+        popupmenuraiz.add(menuitemcrearcarptea1);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -291,8 +316,14 @@ public class Principal extends javax.swing.JFrame {
     private void jtreeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtreeMouseClicked
         jtree.setSelectionRow(jtree.getClosestRowForLocation(evt.getX(), evt.getY()));
         nodoseleccion = (DefaultMutableTreeNode)jtree.getSelectionPath().getLastPathComponent();
+        DefaultTreeModel modelo = (DefaultTreeModel) jtree.getModel();
+        DefaultMutableTreeNode raiz =  (DefaultMutableTreeNode) modelo.getRoot();
         if(evt.getButton()==3){
-            popupmenu.show(jtree, evt.getX(), evt.getY());
+            if(nodoseleccion== raiz){
+                popupmenuraiz.show(jtree, evt.getX(), evt.getY());
+            }else if (nodoseleccion.getUserObject()instanceof Carpepta){
+                popupmenu.show(jtree, evt.getX(), evt.getY());
+            }
         }
         
     }//GEN-LAST:event_jtreeMouseClicked
@@ -363,6 +394,44 @@ public class Principal extends javax.swing.JFrame {
         this.setVisible(true);
     }//GEN-LAST:event_jButton2MouseClicked
 
+    private void menuitemcreararchivo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuitemcreararchivo1ActionPerformed
+        this.setVisible(false);
+        jFrame1.pack();
+        jFrame1.setLocationRelativeTo(this);
+        jFrame1.setVisible(true);
+    }//GEN-LAST:event_menuitemcreararchivo1ActionPerformed
+
+    private void menuitemcrearcarptea1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuitemcrearcarptea1ActionPerformed
+        this.setVisible(false);
+        jFrame2.pack();
+        jFrame2.setLocationRelativeTo(this);
+        jFrame2.setVisible(true);
+    }//GEN-LAST:event_menuitemcrearcarptea1ActionPerformed
+
+    private void menuitemeiminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuitemeiminarActionPerformed
+        try {
+            nodoseleccion.removeAllChildren();
+            DefaultTreeModel modelo = (DefaultTreeModel) jtree.getModel();
+            DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
+            raiz.remove(nodoseleccion);
+            modelo.reload();
+        } catch (IllegalArgumentException e) {
+            DefaultTreeModel modelo = (DefaultTreeModel) jtree.getModel();
+            DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
+//            for (int i = 0; i < raiz.getChildCount(); i++) {
+//                if(raiz.getChildAt(i)== nodoseleccion.getParent()){
+//                    for (int j = 0; j < raiz.getChildAt(i).getChildCount(); j++) {
+                        nodoseleccion.removeAllChildren();
+                        modelo.removeNodeFromParent(nodoseleccion);
+//                    }
+//                    
+//                }
+//            }
+            modelo.reload();
+        }
+        
+    }//GEN-LAST:event_menuitemeiminarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -418,12 +487,15 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JList<String> jlist;
     private javax.swing.JTree jtree;
     private javax.swing.JMenuItem menuitemcreararchivo;
+    private javax.swing.JMenuItem menuitemcreararchivo1;
     private javax.swing.JMenuItem menuitemcrearcarptea;
+    private javax.swing.JMenuItem menuitemcrearcarptea1;
     private javax.swing.JMenuItem menuitemeiminar;
     private javax.swing.JMenuItem menuitemfav;
     private javax.swing.JProgressBar pgabajo;
     private javax.swing.JProgressBar pgarriba;
     private javax.swing.JPopupMenu popupmenu;
+    private javax.swing.JPopupMenu popupmenuraiz;
     private javax.swing.JTextField textfieldnombre;
     private javax.swing.JTextField textfieldnombre1;
     private javax.swing.JTextField textfieldtamano;
@@ -492,6 +564,7 @@ public class Principal extends javax.swing.JFrame {
         
         return temp;   
     }
+    
     
     private String listseleccionado;
     private DefaultMutableTreeNode nodoseleccion;

@@ -31,8 +31,35 @@
         </MenuItem>
         <MenuItem class="javax.swing.JMenuItem" name="menuitemeiminar">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Eliminar"/>
+            <Property name="text" type="java.lang.String" value="Eliminar Carpeta"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuitemeiminarActionPerformed"/>
+          </Events>
+        </MenuItem>
+      </SubComponents>
+    </Container>
+    <Container class="javax.swing.JPopupMenu" name="popupmenuraiz">
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+        <Property name="useNullLayout" type="boolean" value="true"/>
+      </Layout>
+      <SubComponents>
+        <MenuItem class="javax.swing.JMenuItem" name="menuitemcreararchivo1">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Crear Archivo"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuitemcreararchivo1ActionPerformed"/>
+          </Events>
+        </MenuItem>
+        <MenuItem class="javax.swing.JMenuItem" name="menuitemcrearcarptea1">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Crear Carpeta"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuitemcrearcarptea1ActionPerformed"/>
+          </Events>
         </MenuItem>
       </SubComponents>
     </Container>
