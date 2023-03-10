@@ -6,6 +6,7 @@ package danielreyes_lab7p2;
 
 import java.util.Random;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
@@ -17,8 +18,7 @@ public class Principal extends javax.swing.JFrame {
     
     public Principal() {
         initComponents();
-        String t = generadorlink();
-        //System.out.println(t);
+        
         
     }
 
@@ -40,10 +40,18 @@ public class Principal extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        textfieldnombre = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        textfieldtamano = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        combobox = new javax.swing.JComboBox<>();
+        jFrame2 = new javax.swing.JFrame();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        textfieldnombre1 = new javax.swing.JTextField();
+        jButton2 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jlist = new javax.swing.JList<>();
@@ -61,6 +69,11 @@ public class Principal extends javax.swing.JFrame {
         popupmenu.add(menuitemcreararchivo);
 
         menuitemcrearcarptea.setText("Crear Carpeta");
+        menuitemcrearcarptea.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuitemcrearcarpteaActionPerformed(evt);
+            }
+        });
         popupmenu.add(menuitemcrearcarptea);
 
         menuitemfav.setText("Agregar a Destacados");
@@ -80,6 +93,15 @@ public class Principal extends javax.swing.JFrame {
 
         jButton1.setBackground(new java.awt.Color(204, 204, 204));
         jButton1.setText("Agregar");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
+
+        jLabel4.setText("Extension");
+
+        combobox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { ".pdf", ".mp4", ".docx", ".txt" }));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -91,33 +113,39 @@ public class Principal extends javax.swing.JFrame {
                         .addGap(290, 290, 290)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(265, 265, 265)
+                        .addGap(264, 264, 264)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(textfieldnombre, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(textfieldtamano, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(combobox, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(308, 308, 308)
+                        .addGap(300, 300, 300)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(307, Short.MAX_VALUE))
+                .addContainerGap(308, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(26, 26, 26)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(60, 60, 60)
+                .addGap(42, 42, 42)
                 .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1)
+                .addComponent(textfieldnombre)
                 .addGap(34, 34, 34)
                 .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField2)
-                .addGap(60, 60, 60)
+                .addComponent(textfieldtamano)
+                .addGap(33, 33, 33)
+                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(combobox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(64, 64, 64)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(148, 148, 148))
+                .addGap(85, 85, 85))
         );
 
         javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
@@ -129,6 +157,65 @@ public class Principal extends javax.swing.JFrame {
         jFrame1Layout.setVerticalGroup(
             jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jLabel5.setText("Crear Carpeta");
+
+        jLabel6.setText("Nombre");
+
+        jButton2.setBackground(new java.awt.Color(204, 204, 204));
+        jButton2.setText("Agregar");
+        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton2MouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(290, 290, 290)
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(263, 263, 263)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(textfieldnombre1, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(291, 291, 291)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(309, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(114, 114, 114)
+                .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(textfieldnombre1)
+                .addGap(62, 62, 62)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(170, 170, 170))
+        );
+
+        javax.swing.GroupLayout jFrame2Layout = new javax.swing.GroupLayout(jFrame2.getContentPane());
+        jFrame2.getContentPane().setLayout(jFrame2Layout);
+        jFrame2Layout.setHorizontalGroup(
+            jFrame2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jFrame2Layout.setVerticalGroup(
+            jFrame2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -222,11 +309,59 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jlistMouseClicked
 
     private void menuitemcreararchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuitemcreararchivoActionPerformed
+        this.setVisible(false);
+        jFrame1.pack();
+        jFrame1.setLocationRelativeTo(this);
+        jFrame1.setVisible(true);
+        
+    }//GEN-LAST:event_menuitemcreararchivoActionPerformed
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        Archivo a;
+        String link = "dive.google.com/";
+        link = ""+link + generadorlink();
+        try {
+            a = new Archivo(textfieldnombre.getText(), link, combobox.getSelectedItem().toString(), Integer.parseInt(textfieldtamano.getText()));
+            DefaultTreeModel modelo = (DefaultTreeModel) jtree.getModel();
+            DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
+            DefaultMutableTreeNode nodoarchivo = new DefaultMutableTreeNode(a);
+            nodoseleccion.add(nodoarchivo);
+            modelo.reload();
+            
+            
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(jFrame1, "El tamaño no es una cadena");
+        }
+        textfieldnombre.setText("");
+        textfieldtamano.setText("");
+        combobox.setSelectedIndex(0);
+        jFrame1.setVisible(false);
+        this.setVisible(true);
+        
+    }//GEN-LAST:event_jButton1MouseClicked
+
+    private void menuitemcrearcarpteaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuitemcrearcarpteaActionPerformed
+        this.setVisible(false);
+        jFrame2.pack();
+        jFrame2.setLocationRelativeTo(this);
+        jFrame2.setVisible(true);
+    }//GEN-LAST:event_menuitemcrearcarpteaActionPerformed
+
+    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
+        Carpepta c;
+        String link = "dive.google.com/";
+        link = ""+ link + generadorlinkpequeno()+"/"+generadorlink();
+        c = new Carpepta(textfieldnombre1.getText(), link);
         DefaultTreeModel modelo = (DefaultTreeModel) jtree.getModel();
         DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
+        DefaultMutableTreeNode nodoarchivo = new DefaultMutableTreeNode(c);
+        nodoseleccion.add(nodoarchivo);
+        modelo.reload();
         
-        DefaultMutableTreeNode nodoarchivo = new DefaultMutableTreeNode();
-    }//GEN-LAST:event_menuitemcreararchivoActionPerformed
+        textfieldnombre1.setText("");
+        jFrame2.setVisible(false);
+        this.setVisible(true);
+    }//GEN-LAST:event_jButton2MouseClicked
 
     /**
      * @param args the command line arguments
@@ -264,17 +399,22 @@ public class Principal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> combobox;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JFrame jFrame1;
+    private javax.swing.JFrame jFrame2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JList<String> jlist;
     private javax.swing.JTree jtree;
     private javax.swing.JMenuItem menuitemcreararchivo;
@@ -284,23 +424,75 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JProgressBar pgabajo;
     private javax.swing.JProgressBar pgarriba;
     private javax.swing.JPopupMenu popupmenu;
+    private javax.swing.JTextField textfieldnombre;
+    private javax.swing.JTextField textfieldnombre1;
+    private javax.swing.JTextField textfieldtamano;
     // End of variables declaration//GEN-END:variables
     public String generadorlink(){
         String temp="";
         int x;
-        for (int i = 0; i < 10; i++) {
-            x = aleatorio.nextInt(90);
-            System.out.println(x);
+        int b;
+        boolean a = true;
+        while(a== true){
+            x = 1 + aleatorio.nextInt(122);
             for (int j = 65; j <= 90; j++) {
                 if(x == j){
-                    temp += j;
+                    temp += (char)j;
                     break;
                 }
+            }
+            for (int j = 48; j <= 57; j++) {
+                if(x == j){
+                    temp += (char)j;
+                    break;
+                }
+            }
+            for (int j = 97; j <= 122; j++) {
+                if(x == j){
+                    temp += (char)j;
+                    break;
+                }
+            }
+            if(temp.length()== 10){
+                a = false;
             }
         }
         
         return temp;   
     }
+    public String generadorlinkpequeno(){
+        String temp="";
+        int x;
+        int b;
+        boolean a = true;
+        while(a== true){
+            x = 1 + aleatorio.nextInt(122);
+            for (int j = 65; j <= 90; j++) {
+                if(x == j){
+                    temp += (char)j;
+                    break;
+                }
+            }
+            for (int j = 48; j <= 57; j++) {
+                if(x == j){
+                    temp += (char)j;
+                    break;
+                }
+            }
+            for (int j = 97; j <= 122; j++) {
+                if(x == j){
+                    temp += (char)j;
+                    break;
+                }
+            }
+            if(temp.length()== 5){
+                a = false;
+            }
+        }
+        
+        return temp;   
+    }
+    
     private String listseleccionado;
     private DefaultMutableTreeNode nodoseleccion;
 }

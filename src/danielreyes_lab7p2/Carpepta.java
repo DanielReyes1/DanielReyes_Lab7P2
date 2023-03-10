@@ -52,7 +52,7 @@ public class Carpepta {
 
     @Override
     public String toString() {
-        return "Carpepta{" + "nombre=" + nombre + ", link=" + link + ", archivos=" + archivos + ", carpetas=" + carpetas + '}';
+        return nombre;
     }
     
     
