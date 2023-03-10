@@ -4,15 +4,17 @@
  */
 package danielreyes_lab7p2;
 
-/**
- *
- * @author alema
- */
-public class Principal extends javax.swing.JFrame {
+import java.util.Random;
+import javax.swing.DefaultListModel;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 
-    /**
-     * Creates new form Principal
-     */
+
+    
+
+public class Principal extends javax.swing.JFrame {
+    Random aleatorio = new Random();
+    
     public Principal() {
         initComponents();
         
@@ -28,28 +30,57 @@ public class Principal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        popupmenu = new javax.swing.JPopupMenu();
+        menuitemcreararchivo = new javax.swing.JMenuItem();
+        menuitemcrearcarptea = new javax.swing.JMenuItem();
+        menuitemfav = new javax.swing.JMenuItem();
+        menuitemeiminar = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jlabel = new javax.swing.JList<>();
+        jlist = new javax.swing.JList<>();
         jScrollPane2 = new javax.swing.JScrollPane();
         jtree = new javax.swing.JTree();
         pgabajo = new javax.swing.JProgressBar();
         pgarriba = new javax.swing.JProgressBar();
 
+        menuitemcreararchivo.setText("Crear Archivo");
+        popupmenu.add(menuitemcreararchivo);
+
+        menuitemcrearcarptea.setText("Crear Carpeta");
+        popupmenu.add(menuitemcrearcarptea);
+
+        menuitemfav.setText("Agregar a Destacados");
+        popupmenu.add(menuitemfav);
+
+        menuitemeiminar.setText("Eliminar");
+        popupmenu.add(menuitemeiminar);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jlabel.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Mi Unidad", "Destacados", "Papelera", " " };
+        jlist.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Mi Unidad", "Destacados", "Papelera" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane1.setViewportView(jlabel);
+        jlist.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jlistMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jlist);
 
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("root");
         jtree.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+        jtree.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jtreeMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(jtree);
+
+        pgabajo.setToolTipText("");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -94,6 +125,23 @@ public class Principal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jtreeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtreeMouseClicked
+        if(evt.getButton()==3){
+            
+        }
+    }//GEN-LAST:event_jtreeMouseClicked
+
+    private void jlistMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlistMouseClicked
+        listseleccionado = "";
+        listseleccionado = jlist.getSelectedValue();
+        
+        DefaultTreeModel modelo = (DefaultTreeModel) jtree.getModel();
+        DefaultMutableTreeNode raiz =  (DefaultMutableTreeNode) modelo.getRoot();
+        raiz.setUserObject(listseleccionado);
+        modelo.reload();
+        
+    }//GEN-LAST:event_jlistMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -133,9 +181,26 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JList<String> jlabel;
+    private javax.swing.JList<String> jlist;
     private javax.swing.JTree jtree;
+    private javax.swing.JMenuItem menuitemcreararchivo;
+    private javax.swing.JMenuItem menuitemcrearcarptea;
+    private javax.swing.JMenuItem menuitemeiminar;
+    private javax.swing.JMenuItem menuitemfav;
     private javax.swing.JProgressBar pgabajo;
     private javax.swing.JProgressBar pgarriba;
+    private javax.swing.JPopupMenu popupmenu;
     // End of variables declaration//GEN-END:variables
+    public String generadorlink(){
+        String temp="";
+        int x;
+        for (int i = 0; i < 10; i++) {
+            x = 65+aleatorio.nextInt(90);
+            for (int j = 65; j < 90; j++) {
+                temp += x;
+            }
+        }
+        return temp;   
+    }
+    private String listseleccionado;
 }
