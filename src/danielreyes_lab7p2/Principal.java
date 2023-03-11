@@ -4,12 +4,14 @@
  */
 package danielreyes_lab7p2;
 
+import java.awt.Color;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.Random;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
@@ -40,11 +42,15 @@ public class Principal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        popuparchivo = new javax.swing.JPopupMenu();
+        menuitemeliminararch = new javax.swing.JMenuItem();
+        menuitemagregardestacados = new javax.swing.JMenuItem();
         popupmenu = new javax.swing.JPopupMenu();
         menuitemcreararchivo = new javax.swing.JMenuItem();
         menuitemcrearcarptea = new javax.swing.JMenuItem();
         menuitemfav = new javax.swing.JMenuItem();
         menuitemeiminar = new javax.swing.JMenuItem();
+        menuitemdescargar = new javax.swing.JMenuItem();
         popupmenuraiz = new javax.swing.JPopupMenu();
         menuitemcreararchivo1 = new javax.swing.JMenuItem();
         menuitemcrearcarptea1 = new javax.swing.JMenuItem();
@@ -70,8 +76,23 @@ public class Principal extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jtree = new javax.swing.JTree();
         pgabajo = new javax.swing.JProgressBar();
-        pgarriba = new javax.swing.JProgressBar();
         jButton4 = new javax.swing.JButton();
+
+        menuitemeliminararch.setText("Eliminar Archivo");
+        menuitemeliminararch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuitemeliminararchActionPerformed(evt);
+            }
+        });
+        popuparchivo.add(menuitemeliminararch);
+
+        menuitemagregardestacados.setText("Agregar Destacados");
+        menuitemagregardestacados.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuitemagregardestacadosActionPerformed(evt);
+            }
+        });
+        popuparchivo.add(menuitemagregardestacados);
 
         menuitemcreararchivo.setText("Crear Archivo");
         menuitemcreararchivo.addActionListener(new java.awt.event.ActionListener() {
@@ -90,6 +111,11 @@ public class Principal extends javax.swing.JFrame {
         popupmenu.add(menuitemcrearcarptea);
 
         menuitemfav.setText("Agregar a Destacados");
+        menuitemfav.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuitemfavActionPerformed(evt);
+            }
+        });
         popupmenu.add(menuitemfav);
 
         menuitemeiminar.setText("Eliminar Carpeta");
@@ -99,6 +125,14 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         popupmenu.add(menuitemeiminar);
+
+        menuitemdescargar.setText("Descargar Carpeta");
+        menuitemdescargar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuitemdescargarActionPerformed(evt);
+            }
+        });
+        popupmenu.add(menuitemdescargar);
 
         menuitemcreararchivo1.setText("Crear Archivo");
         menuitemcreararchivo1.addActionListener(new java.awt.event.ActionListener() {
@@ -297,7 +331,6 @@ public class Principal extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 167, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(pgarriba, javax.swing.GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE)
                     .addComponent(pgabajo, javax.swing.GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE)
                     .addComponent(jScrollPane2)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
@@ -308,9 +341,7 @@ public class Principal extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(48, 48, 48)
-                .addComponent(pgarriba, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(86, 86, 86)
                 .addComponent(pgabajo, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -341,12 +372,34 @@ public class Principal extends javax.swing.JFrame {
         nodoseleccion = (DefaultMutableTreeNode)jtree.getSelectionPath().getLastPathComponent();
         DefaultTreeModel modelo = (DefaultTreeModel) jtree.getModel();
         DefaultMutableTreeNode raiz =  (DefaultMutableTreeNode) modelo.getRoot();
+        for (Archivo a : listaarch) {
+            String temp = a.getNombre()+a.getExtension();
+                if(temp.equals(nodoseleccion.toString())){
+                    pgabajo.setStringPainted(true);
+                    pgabajo.setString(a.getLink());
+                    pgabajo.setForeground(Color.black);
+                    
+               }
+        }
+        for (Carpepta c : listacarp) {
+            if(c.getNombre().equals(nodoseleccion.toString())){
+                pgabajo.setStringPainted(true);
+                    pgabajo.setString(c.getLink());
+                    pgabajo.setForeground(Color.black);
+            }
+        }
         if(evt.getButton()==3){
             if(nodoseleccion== raiz && nodoseleccion.getUserObject().equals("Mi Unidad")){
                 popupmenuraiz.show(jtree, evt.getX(), evt.getY());
+                pgabajo.setString("Mi Unidad");
             }else if (nodoseleccion.getUserObject()instanceof Carpepta){
                 popupmenu.show(jtree, evt.getX(), evt.getY());
+                
+                
+            }else if (nodoseleccion.getUserObject()instanceof Archivo){
+                popuparchivo.show(jtree, evt.getX(), evt.getY());
             }
+                    
         }
         
     }//GEN-LAST:event_jtreeMouseClicked
@@ -401,16 +454,35 @@ public class Principal extends javax.swing.JFrame {
             if(contador22!=4){
                 DefaultTreeModel modelo = new DefaultTreeModel(new DefaultMutableTreeNode("Destacados"));
                 jtree.setModel(modelo);
-                
+                DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
+                modelo.reload();
+                arbol22 = modelo;
+                contador22 = 4;
+            }else{
+                jtree.setModel(arbol22);
+                DefaultTreeModel modelo = (DefaultTreeModel) jtree.getModel();
+                DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
+                raiz.setUserObject(listseleccionado);
+                modelo.reload();
             }
             
             
             
         }else if(listseleccionado.equals("Papelera")){
-            DefaultTreeModel modelo = (DefaultTreeModel) jtree.getModel();
-            DefaultMutableTreeNode raiz =  (DefaultMutableTreeNode) modelo.getRoot();
-            raiz.setUserObject(listseleccionado);
-            modelo.reload();
+            if(contador66!=4){
+                DefaultTreeModel modelo = new DefaultTreeModel(new DefaultMutableTreeNode("Papelera"));
+                jtree.setModel(modelo);
+                DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
+                modelo.reload();
+                arbol66 = modelo;
+                contador66 = 4;
+            }else{
+                jtree.setModel(arbol66);
+                DefaultTreeModel modelo = (DefaultTreeModel) jtree.getModel();
+                DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
+                raiz.setUserObject(listseleccionado);
+                modelo.reload();
+            }
         }
         
         
@@ -430,6 +502,7 @@ public class Principal extends javax.swing.JFrame {
         link = ""+link + generadorlink();
         try {
             a = new Archivo(textfieldnombre.getText(), link, combobox.getSelectedItem().toString(), Integer.parseInt(textfieldtamano.getText()));
+            listaarch.add(a);
             DefaultTreeModel modelo = (DefaultTreeModel) jtree.getModel();
             DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
             DefaultMutableTreeNode nodoarchivo = new DefaultMutableTreeNode(a);
@@ -461,6 +534,7 @@ public class Principal extends javax.swing.JFrame {
         String link = "dive.google.com/";
         link = ""+ link + generadorlinkpequeno()+"/"+generadorlink();
         c = new Carpepta(textfieldnombre1.getText(), link);
+        listacarp.add(c);
         DefaultTreeModel modelo = (DefaultTreeModel) jtree.getModel();
         DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
         DefaultMutableTreeNode nodoarchivo = new DefaultMutableTreeNode(c);
@@ -487,54 +561,244 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_menuitemcrearcarptea1ActionPerformed
 
     private void menuitemeiminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuitemeiminarActionPerformed
-        try {
-            nodoseleccion.removeAllChildren();
-            DefaultTreeModel modelo = (DefaultTreeModel) jtree.getModel();
+        if (contador66 != 4) {
+            try {
+                nodoseleccion.removeAllChildren();
+                DefaultTreeModel modelo = (DefaultTreeModel) jtree.getModel();
+                DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
+                raiz.remove(nodoseleccion);
+                modelo.reload();
+            } catch (IllegalArgumentException e) {
+                DefaultTreeModel modelo = (DefaultTreeModel) jtree.getModel();
+                DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
+                nodoseleccion.removeAllChildren();
+                modelo.removeNodeFromParent(nodoseleccion);
+                modelo.reload();
+            }
+            
+            DefaultTreeModel modelo = new DefaultTreeModel(new DefaultMutableTreeNode("Papelera"));
+            jtree.setModel(modelo);
             DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
-            raiz.remove(nodoseleccion);
+            DefaultMutableTreeNode nodo = new DefaultMutableTreeNode(nodoseleccion);
+            if (nodoseleccion.getChildCount() > 0) {
+                for (int i = 0; i < nodoseleccion.getChildCount(); i++) {
+                    DefaultMutableTreeNode nodomenor = new DefaultMutableTreeNode(nodoseleccion.getChildAt(i));
+
+                    nodo.add(nodomenor);
+                }
+            }
+            raiz.add(nodo);
             modelo.reload();
-        } catch (IllegalArgumentException e) {
+            arbol66 = modelo;
+            contador66 = 4;
+            
+            
+        } else {
+             try {
+                
+                DefaultTreeModel modelo = (DefaultTreeModel) jtree.getModel();
+                DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
+                raiz.remove(nodoseleccion);
+                modelo.reload();
+            } catch (IllegalArgumentException e) {
+                DefaultTreeModel modelo = (DefaultTreeModel) jtree.getModel();
+                DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
+                nodoseleccion.removeAllChildren();
+                modelo.removeNodeFromParent(nodoseleccion);
+                modelo.reload();
+            }
+
+            jtree.setModel(arbol66);
             DefaultTreeModel modelo = (DefaultTreeModel) jtree.getModel();
             DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
-//            for (int i = 0; i < raiz.getChildCount(); i++) {
-//                if(raiz.getChildAt(i)== nodoseleccion.getParent()){
-//                    for (int j = 0; j < raiz.getChildAt(i).getChildCount(); j++) {
-                        nodoseleccion.removeAllChildren();
-                        modelo.removeNodeFromParent(nodoseleccion);
-//                    }
-//                    
-//                }
-//            }
+            DefaultMutableTreeNode nodo = new DefaultMutableTreeNode(nodoseleccion);
+            if (nodoseleccion.getChildCount() > 0) {
+                for (int i = 0; i < nodoseleccion.getChildCount(); i++) {
+                    DefaultMutableTreeNode nodomenor = new DefaultMutableTreeNode(nodoseleccion.getChildAt(i));
+
+                    nodo.add(nodomenor);
+                }
+            }
+            raiz.add(nodo);
             modelo.reload();
         }
+        jlist.setSelectedIndex(2);
         
     }//GEN-LAST:event_menuitemeiminarActionPerformed
 
     private void jButton4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton4MouseClicked
-         File archivo = null;
-        FileInputStream fr = null;
-        ObjectInputStream br = null;  
         try {
-            JFileChooser jfc = new JFileChooser();
-            int seleccion = jfc.showSaveDialog(this);
-            if(seleccion == JFileChooser.APPROVE_OPTION){
-                archivo = jfc.getSelectedFile();
-                fr = new FileInputStream(archivo);
-                br = new ObjectInputStream(fr);
-                
-                
-                Binario b = (Binario) br.readObject();
-                jtree.setModel(((Binario)b).getArbolito().getModel());
-                
+            File archivo = null;
+            FileInputStream fr = null;
+            ObjectInputStream br = null;
+            try {
+                JFileChooser jfc = new JFileChooser();
+                int seleccion = jfc.showSaveDialog(this);
+                if (seleccion == JFileChooser.APPROVE_OPTION) {
+                    archivo = jfc.getSelectedFile();
+                    fr = new FileInputStream(archivo);
+                    br = new ObjectInputStream(fr);
+
+                    Binario b = (Binario) br.readObject();
+                    jtree.setModel(arbol1);
+
+                }
+            } catch (Exception e) {
             }
-        } catch (Exception e) {
+            try {
+                br.close();
+                fr.close();
+            } catch (IOException ex) {
+            }
+        } catch (NullPointerException e) {
         }
-        try {
-            br.close();
-            fr.close();
-        } catch (IOException ex) {
-        }
+        
     }//GEN-LAST:event_jButton4MouseClicked
+
+    private void menuitemeliminararchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuitemeliminararchActionPerformed
+        if(contador66 != 4){
+        try {
+            DefaultTreeModel modelo = (DefaultTreeModel) jtree.getModel();
+            modelo.removeNodeFromParent(nodoseleccion);
+            modelo.reload();
+        } catch (ArrayIndexOutOfBoundsException e) {
+        }
+        DefaultTreeModel modelo = new DefaultTreeModel(new DefaultMutableTreeNode("Papelera"));
+            jtree.setModel(modelo);
+            DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
+            DefaultMutableTreeNode nodo = new DefaultMutableTreeNode(nodoseleccion);
+            raiz.add(nodo);
+            modelo.reload();
+            arbol66 = modelo;
+            contador66 = 4;
+        } else {
+            try {
+                DefaultTreeModel modelo = (DefaultTreeModel) jtree.getModel();
+                modelo.removeNodeFromParent(nodoseleccion);
+                modelo.reload();
+            } catch (ArrayIndexOutOfBoundsException e) {
+            }
+            jtree.setModel(arbol66);
+            DefaultTreeModel modelo = (DefaultTreeModel) jtree.getModel();
+            DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
+            DefaultMutableTreeNode nodo = new DefaultMutableTreeNode(nodoseleccion);
+            raiz.add(nodo);
+            modelo.reload();
+        }
+        jlist.setSelectedIndex(2);
+        
+    }//GEN-LAST:event_menuitemeliminararchActionPerformed
+
+    private void menuitemagregardestacadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuitemagregardestacadosActionPerformed
+        if (contador22 != 4) {
+            try {
+                DefaultTreeModel modelo = (DefaultTreeModel) jtree.getModel();
+                modelo.removeNodeFromParent(nodoseleccion);
+                modelo.reload();
+            } catch (ArrayIndexOutOfBoundsException e) {
+            }
+            DefaultTreeModel modelo = new DefaultTreeModel(new DefaultMutableTreeNode("Destacados"));
+            jtree.setModel(modelo);
+            DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
+            DefaultMutableTreeNode nodo = new DefaultMutableTreeNode(nodoseleccion);
+            raiz.add(nodo);
+            modelo.reload();
+            arbol22 = modelo;
+            contador22 = 4;
+        } else {
+            try {
+                DefaultTreeModel modelo = (DefaultTreeModel) jtree.getModel();
+                modelo.removeNodeFromParent(nodoseleccion);
+                modelo.reload();
+            } catch (ArrayIndexOutOfBoundsException e) {
+            }
+            jtree.setModel(arbol22);
+            DefaultTreeModel modelo = (DefaultTreeModel) jtree.getModel();
+            DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
+            DefaultMutableTreeNode nodo = new DefaultMutableTreeNode(nodoseleccion);
+            raiz.add(nodo);
+            modelo.reload();
+        }
+        jlist.setSelectedIndex(1);
+        
+        
+    }//GEN-LAST:event_menuitemagregardestacadosActionPerformed
+
+    private void menuitemfavActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuitemfavActionPerformed
+        if (contador22 != 4) {
+            try {
+                nodoseleccion.removeAllChildren();
+                DefaultTreeModel modelo = (DefaultTreeModel) jtree.getModel();
+                DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
+                raiz.remove(nodoseleccion);
+                modelo.reload();
+            } catch (IllegalArgumentException e) {
+                DefaultTreeModel modelo = (DefaultTreeModel) jtree.getModel();
+                DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
+                nodoseleccion.removeAllChildren();
+                modelo.removeNodeFromParent(nodoseleccion);
+                modelo.reload();
+            }
+            
+            DefaultTreeModel modelo = new DefaultTreeModel(new DefaultMutableTreeNode("Destacados"));
+            jtree.setModel(modelo);
+            DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
+            DefaultMutableTreeNode nodo = new DefaultMutableTreeNode(nodoseleccion);
+            if (nodoseleccion.getChildCount() > 0) {
+                for (int i = 0; i < nodoseleccion.getChildCount(); i++) {
+                    DefaultMutableTreeNode nodomenor = new DefaultMutableTreeNode(nodoseleccion.getChildAt(i));
+
+                    nodo.add(nodomenor);
+                }
+            }
+            raiz.add(nodo);
+            modelo.reload();
+            arbol22 = modelo;
+            contador22 = 4;
+            
+            
+        } else {
+             try {
+                
+                DefaultTreeModel modelo = (DefaultTreeModel) jtree.getModel();
+                DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
+                raiz.remove(nodoseleccion);
+                modelo.reload();
+            } catch (IllegalArgumentException e) {
+                DefaultTreeModel modelo = (DefaultTreeModel) jtree.getModel();
+                DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
+                nodoseleccion.removeAllChildren();
+                modelo.removeNodeFromParent(nodoseleccion);
+                modelo.reload();
+            }
+
+            jtree.setModel(arbol22);
+            DefaultTreeModel modelo = (DefaultTreeModel) jtree.getModel();
+            DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
+            DefaultMutableTreeNode nodo = new DefaultMutableTreeNode(nodoseleccion);
+            if (nodoseleccion.getChildCount() > 0) {
+                for (int i = 0; i < nodoseleccion.getChildCount(); i++) {
+                    DefaultMutableTreeNode nodomenor = new DefaultMutableTreeNode(nodoseleccion.getChildAt(i));
+
+                    nodo.add(nodomenor);
+                }
+            }
+            raiz.add(nodo);
+            modelo.reload();
+        }
+        jlist.setSelectedIndex(1);
+    }//GEN-LAST:event_menuitemfavActionPerformed
+
+    private void menuitemdescargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuitemdescargarActionPerformed
+        if(nodoseleccion.getChildCount()== 0){
+            JOptionPane.showMessageDialog(jtree, "No hay nada en la carpeta");
+        }else{
+            int temp = nodoseleccion.getChildCount();
+            Barra b = new Barra(pgabajo, temp*50);
+            b.start();
+        }
+        
+    }//GEN-LAST:event_menuitemdescargarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -591,14 +855,17 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JList<String> jlist;
     private javax.swing.JTree jtree;
+    private javax.swing.JMenuItem menuitemagregardestacados;
     private javax.swing.JMenuItem menuitemcreararchivo;
     private javax.swing.JMenuItem menuitemcreararchivo1;
     private javax.swing.JMenuItem menuitemcrearcarptea;
     private javax.swing.JMenuItem menuitemcrearcarptea1;
+    private javax.swing.JMenuItem menuitemdescargar;
     private javax.swing.JMenuItem menuitemeiminar;
+    private javax.swing.JMenuItem menuitemeliminararch;
     private javax.swing.JMenuItem menuitemfav;
     private javax.swing.JProgressBar pgabajo;
-    private javax.swing.JProgressBar pgarriba;
+    private javax.swing.JPopupMenu popuparchivo;
     private javax.swing.JPopupMenu popupmenu;
     private javax.swing.JPopupMenu popupmenuraiz;
     private javax.swing.JTextField textfieldnombre;
@@ -670,7 +937,8 @@ public class Principal extends javax.swing.JFrame {
         return temp;   
     }
     
-    
+    private ArrayList<Archivo> listaarch = new ArrayList();
+    private ArrayList<Carpepta> listacarp = new ArrayList();
     private String listseleccionado;
     private DefaultMutableTreeNode nodoseleccion;
     private DefaultTreeModel arbol1;
