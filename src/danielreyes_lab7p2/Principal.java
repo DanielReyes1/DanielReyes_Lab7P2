@@ -4,9 +4,17 @@
  */
 package danielreyes_lab7p2;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.Random;
 import javax.swing.DefaultListModel;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.MutableTreeNode;
@@ -63,6 +71,7 @@ public class Principal extends javax.swing.JFrame {
         jtree = new javax.swing.JTree();
         pgabajo = new javax.swing.JProgressBar();
         pgarriba = new javax.swing.JProgressBar();
+        jButton4 = new javax.swing.JButton();
 
         menuitemcreararchivo.setText("Crear Archivo");
         menuitemcreararchivo.addActionListener(new java.awt.event.ActionListener() {
@@ -270,6 +279,15 @@ public class Principal extends javax.swing.JFrame {
 
         pgabajo.setToolTipText("");
 
+        jButton4.setBackground(new java.awt.Color(0, 0, 0));
+        jButton4.setForeground(new java.awt.Color(255, 255, 255));
+        jButton4.setText("Leer Binario");
+        jButton4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton4MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -280,9 +298,11 @@ public class Principal extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 167, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(pgarriba, javax.swing.GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(pgabajo, javax.swing.GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE)
-                        .addComponent(jScrollPane2)))
+                    .addComponent(pgabajo, javax.swing.GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(71, 71, 71)))
                 .addGap(71, 71, 71))
         );
         jPanel1Layout.setVerticalGroup(
@@ -293,10 +313,13 @@ public class Principal extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(pgabajo, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 352, Short.MAX_VALUE))
-                .addContainerGap(31, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 352, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton4)))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -319,7 +342,7 @@ public class Principal extends javax.swing.JFrame {
         DefaultTreeModel modelo = (DefaultTreeModel) jtree.getModel();
         DefaultMutableTreeNode raiz =  (DefaultMutableTreeNode) modelo.getRoot();
         if(evt.getButton()==3){
-            if(nodoseleccion== raiz){
+            if(nodoseleccion== raiz && nodoseleccion.getUserObject().equals("Mi Unidad")){
                 popupmenuraiz.show(jtree, evt.getX(), evt.getY());
             }else if (nodoseleccion.getUserObject()instanceof Carpepta){
                 popupmenu.show(jtree, evt.getX(), evt.getY());
@@ -332,10 +355,64 @@ public class Principal extends javax.swing.JFrame {
         listseleccionado = "";
         listseleccionado = jlist.getSelectedValue();
         
-        DefaultTreeModel modelo = (DefaultTreeModel) jtree.getModel();
-        DefaultMutableTreeNode raiz =  (DefaultMutableTreeNode) modelo.getRoot();
-        raiz.setUserObject(listseleccionado);
-        modelo.reload();
+        if(listseleccionado.equals("Mi Unidad")){
+            if(contador !=4){
+                DefaultTreeModel modelo = (DefaultTreeModel) jtree.getModel();
+                DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
+                raiz.setUserObject(listseleccionado);
+                modelo.reload();
+                arbol1 = modelo;
+                contador = 4;
+                
+            }else{
+                jtree.setModel(arbol1);
+                DefaultTreeModel modelo = (DefaultTreeModel) jtree.getModel();
+                DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
+                raiz.setUserObject(listseleccionado);
+                modelo.reload();
+                //guardarbinario
+                try {
+                    FileOutputStream fw = null;
+                    ObjectOutputStream bw = null;
+
+                    File archivo = new File("./binarioguardado");
+                    try {
+                        fw = new FileOutputStream(archivo);
+                        bw = new ObjectOutputStream(fw);
+                        Binario b = new Binario(jtree);
+                        bw.writeObject(b);
+                        bw.flush();
+
+                    } catch (Exception e) {
+                    }
+
+                    try {
+                        bw.close();
+                        fw.close();
+                    } catch (IOException ex) {
+                    }
+                } catch (NullPointerException e) {
+                }
+                
+            }
+            
+            
+        }else if(listseleccionado.equals("Destacados")){
+            if(contador22!=4){
+                DefaultTreeModel modelo = new DefaultTreeModel(new DefaultMutableTreeNode("Destacados"));
+                jtree.setModel(modelo);
+                
+            }
+            
+            
+            
+        }else if(listseleccionado.equals("Papelera")){
+            DefaultTreeModel modelo = (DefaultTreeModel) jtree.getModel();
+            DefaultMutableTreeNode raiz =  (DefaultMutableTreeNode) modelo.getRoot();
+            raiz.setUserObject(listseleccionado);
+            modelo.reload();
+        }
+        
         
     }//GEN-LAST:event_jlistMouseClicked
 
@@ -376,6 +453,7 @@ public class Principal extends javax.swing.JFrame {
         jFrame2.pack();
         jFrame2.setLocationRelativeTo(this);
         jFrame2.setVisible(true);
+        
     }//GEN-LAST:event_menuitemcrearcarpteaActionPerformed
 
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
@@ -432,6 +510,32 @@ public class Principal extends javax.swing.JFrame {
         
     }//GEN-LAST:event_menuitemeiminarActionPerformed
 
+    private void jButton4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton4MouseClicked
+         File archivo = null;
+        FileInputStream fr = null;
+        ObjectInputStream br = null;  
+        try {
+            JFileChooser jfc = new JFileChooser();
+            int seleccion = jfc.showSaveDialog(this);
+            if(seleccion == JFileChooser.APPROVE_OPTION){
+                archivo = jfc.getSelectedFile();
+                fr = new FileInputStream(archivo);
+                br = new ObjectInputStream(fr);
+                
+                
+                Binario b = (Binario) br.readObject();
+                jtree.setModel(((Binario)b).getArbolito().getModel());
+                
+            }
+        } catch (Exception e) {
+        }
+        try {
+            br.close();
+            fr.close();
+        } catch (IOException ex) {
+        }
+    }//GEN-LAST:event_jButton4MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -471,6 +575,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> combobox;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton4;
     private javax.swing.JFrame jFrame1;
     private javax.swing.JFrame jFrame2;
     private javax.swing.JLabel jLabel1;
@@ -568,4 +673,10 @@ public class Principal extends javax.swing.JFrame {
     
     private String listseleccionado;
     private DefaultMutableTreeNode nodoseleccion;
+    private DefaultTreeModel arbol1;
+    private DefaultTreeModel arbol22;
+    private DefaultTreeModel arbol66;
+    private int contador;
+    private int contador22;
+    private int contador66;
 }
